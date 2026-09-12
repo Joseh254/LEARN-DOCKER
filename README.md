@@ -12,14 +12,14 @@ To understand why Docker exists, imagine developing an application on your compu
 
 Your application may require:
 
-* Node.js version 22
-* PostgreSQL
-* Prisma
-* Express
-* Specific operating system libraries
-* Environment variables
-* Particular dependency versions
-* Specific database configuration
+- Node.js version 22
+- PostgreSQL
+- Prisma
+- Express
+- Specific operating system libraries
+- Environment variables
+- Particular dependency versions
+- Specific database configuration
 
 Your application works perfectly on your computer.
 
@@ -31,14 +31,14 @@ The other developer may say:
 
 This can happen because the two computers have different:
 
-* Operating systems
-* Node.js versions
-* Database versions
-* Environment variables
-* Installed libraries
-* Dependency versions
-* File paths
-* Network configurations
+- Operating systems
+- Node.js versions
+- Database versions
+- Environment variables
+- Installed libraries
+- Dependency versions
+- File paths
+- Network configurations
 
 Docker attempts to solve this problem by packaging the application and its environment into a predictable unit.
 
@@ -113,15 +113,15 @@ The Docker Engine is the actual system responsible for running containers.
 
 It performs tasks such as:
 
-* Creating containers
-* Starting containers
-* Stopping containers
-* Managing images
-* Creating networks
-* Managing volumes
-* Connecting containers
-* Reading Dockerfiles
-* Executing container commands
+- Creating containers
+- Starting containers
+- Stopping containers
+- Managing images
+- Creating networks
+- Managing volumes
+- Connecting containers
+- Reading Dockerfiles
+- Executing container commands
 
 You interact with Docker Engine through the Docker command-line interface.
 
@@ -190,12 +190,12 @@ On Windows, most beginners use Docker Desktop.
 
 Docker Desktop provides a graphical application and includes important Docker components such as:
 
-* Docker Engine
-* Docker CLI
-* Docker Compose
-* Docker networking
-* Docker volume management
-* Integration with WSL 2
+- Docker Engine
+- Docker CLI
+- Docker Compose
+- Docker networking
+- Docker volume management
+- Integration with WSL 2
 
 Docker Desktop makes it easier to run Linux containers on Windows.
 
@@ -211,13 +211,13 @@ An image contains the instructions and files required to run an application.
 
 For example, an image may contain:
 
-* A Linux filesystem
-* Node.js
-* npm
-* Application dependencies
-* Application source code
-* Configuration files
-* Startup instructions
+- A Linux filesystem
+- Node.js
+- npm
+- Application dependencies
+- Application source code
+- Configuration files
+- Startup instructions
 
 Think of an image as a blueprint or packaged application template.
 
@@ -305,11 +305,11 @@ Containers are not the same as virtual machines.
 
 A virtual machine usually includes:
 
-* A complete guest operating system
-* Its own kernel
-* Virtual hardware
-* Applications
-* Libraries
+- A complete guest operating system
+- Its own kernel
+- Virtual hardware
+- Applications
+- Libraries
 
 Containers share the host operating system kernel, while isolating processes and filesystems.
 
@@ -373,10 +373,10 @@ Windows
 
 This is why Docker Desktop on Windows may require:
 
-* CPU virtualization
-* WSL 2
-* Virtual Machine Platform
-* Windows Subsystem for Linux
+- CPU virtualization
+- WSL 2
+- Virtual Machine Platform
+- Windows Subsystem for Linux
 
 ---
 
@@ -579,8 +579,8 @@ wsl --install -d Ubuntu
 
 After installation, Ubuntu may ask you to create:
 
-* A Linux username
-* A Linux password
+- A Linux username
+- A Linux password
 
 These credentials are for the Linux environment and are separate from your Windows password.
 
@@ -668,11 +668,11 @@ If successful, Docker will download an image and run a small container that prin
 
 This confirms that:
 
-* Docker CLI is installed
-* Docker Engine is running
-* Docker can download images
-* Docker can create containers
-* Docker can execute containers
+- Docker CLI is installed
+- Docker Engine is running
+- Docker can download images
+- Docker can create containers
+- Docker can execute containers
 
 ---
 
@@ -771,10 +771,10 @@ means:
 
 Advantages of Alpine images may include:
 
-* Smaller image size
-* Fewer unnecessary packages
-* Faster downloads
-* Reduced storage usage
+- Smaller image size
+- Fewer unnecessary packages
+- Faster downloads
+- Reduced storage usage
 
 However, Alpine can sometimes create compatibility problems with native dependencies because it uses musl libc instead of glibc.
 
@@ -788,13 +788,13 @@ A Dockerfile is a text file containing instructions used to build a Docker image
 
 It describes:
 
-* Which base image to use
-* Where the application should live
-* Which files to copy
-* Which dependencies to install
-* Which commands to execute
-* Which port the application uses
-* Which command starts the application
+- Which base image to use
+- Where the application should live
+- Which files to copy
+- Which dependencies to install
+- Which commands to execute
+- Which port the application uses
+- Which command starts the application
 
 A Dockerfile is similar to a recipe.
 
@@ -836,10 +836,10 @@ Your application requires Node.js, so instead of installing Node.js manually, yo
 
 The base image provides:
 
-* Linux environment
-* Node.js
-* npm
-* Required basic operating system files
+- Linux environment
+- Node.js
+- npm
+- Required basic operating system files
 
 Without `FROM`, Docker would not know the starting point for the image.
 
@@ -1060,12 +1060,12 @@ This is why `.dockerignore` is important.
 
 Without `.dockerignore`, Docker may send unnecessary files such as:
 
-* `node_modules`
-* `.git`
-* `.env`
-* Logs
-* Build output
-* Temporary files
+- `node_modules`
+- `.git`
+- `.env`
+- Logs
+- Build output
+- Temporary files
 
 ---
 
@@ -1259,15 +1259,15 @@ docker-compose.yml
 
 Compose allows you to define:
 
-* Services
-* Images
-* Builds
-* Ports
-* Environment variables
-* Volumes
-* Networks
-* Dependencies
-* Restart policies
+- Services
+- Images
+- Builds
+- Ports
+- Environment variables
+- Volumes
+- Networks
+- Dependencies
+- Restart policies
 
 ---
 
@@ -1277,19 +1277,19 @@ Your application and database perform different responsibilities.
 
 The Express container handles:
 
-* HTTP requests
-* Business logic
-* Routes
-* Prisma calls
-* API responses
+- HTTP requests
+- Business logic
+- Routes
+- Prisma calls
+- API responses
 
 The PostgreSQL container handles:
 
-* Data storage
-* SQL queries
-* Tables
-* Transactions
-* Database persistence
+- Data storage
+- SQL queries
+- Tables
+- Transactions
+- Database persistence
 
 The architecture is:
 
@@ -1310,11 +1310,11 @@ This separation is useful because each service can be managed independently.
 
 For example:
 
-* Restart the application without deleting the database
-* Upgrade the application without rebuilding PostgreSQL
-* Move the database to another server later
-* Scale the application separately
-* Back up the database independently
+- Restart the application without deleting the database
+- Upgrade the application without rebuilding PostgreSQL
+- Move the database to another server later
+- Scale the application separately
+- Back up the database independently
 
 ---
 
@@ -1570,7 +1570,7 @@ environment:
 Inside the container:
 
 ```js
-process.env.PORT
+process.env.PORT;
 ```
 
 returns:
@@ -1582,7 +1582,7 @@ returns:
 Similarly:
 
 ```js
-process.env.DATABASE_URL
+process.env.DATABASE_URL;
 ```
 
 returns the database connection string.
@@ -1868,11 +1868,11 @@ Port: 5433
 
 Examples of clients include:
 
-* DBeaver
-* pgAdmin
-* TablePlus
-* Prisma Studio
-* Another local application
+- DBeaver
+- pgAdmin
+- TablePlus
+- Prisma Studio
+- Another local application
 
 Inside Docker, use:
 
@@ -1998,8 +1998,8 @@ docker compose down
 
 usually removes:
 
-* Containers
-* Compose network
+- Containers
+- Compose network
 
 It normally preserves named volumes.
 
@@ -2326,12 +2326,12 @@ const password = process.env.POSTGRES_PASSWORD;
 
 Environment variables are useful for:
 
-* Database passwords
-* API keys
-* JWT secrets
-* Port numbers
-* Database URLs
-* Third-party credentials
+- Database passwords
+- API keys
+- JWT secrets
+- Port numbers
+- Database URLs
+- Third-party credentials
 
 However, `.env` files should not be committed to Git.
 
@@ -2353,7 +2353,7 @@ app.use(express.json());
 const port = process.env.PORT || 5000;
 
 const styles = {
-  heading: "color: red; font-family: sans-serif;"
+  heading: "color: red; font-family: sans-serif;",
 };
 
 app.get("/", (req, res) => {
@@ -2374,12 +2374,12 @@ Docker simply provides the environment where Express runs.
 
 The application still:
 
-* Creates an Express instance
-* Registers middleware
-* Registers routes
-* Reads environment variables
-* Starts a server
-* Listens on a port
+- Creates an Express instance
+- Registers middleware
+- Registers routes
+- Reads environment variables
+- Starts a server
+- Listens on a port
 
 ---
 
@@ -2497,10 +2497,10 @@ npx prisma migrate dev --name add_stock
 
 It may:
 
-* Create a migration
-* Apply the migration
-* Update the development database
-* Regenerate Prisma Client
+- Create a migration
+- Apply the migration
+- Update the development database
+- Regenerate Prisma Client
 
 ## migrate deploy
 
@@ -3300,12 +3300,12 @@ Do not do this in production unless you intentionally want to delete the data.
 
 Prisma may sometimes produce errors related to:
 
-* OpenSSL
-* Query engine
-* Linux binaries
-* musl
-* glibc
-* Unsupported platform
+- OpenSSL
+- Query engine
+- Linux binaries
+- musl
+- glibc
+- Unsupported platform
 
 This can happen when Prisma Client is generated on one operating system but executed on another.
 
@@ -3347,15 +3347,15 @@ FROM node:22.23-alpine
 
 Advantages:
 
-* Smaller image
-* Lightweight
-* Lower storage usage
+- Smaller image
+- Lightweight
+- Lower storage usage
 
 Potential disadvantages:
 
-* Native dependency compatibility issues
-* musl-related problems
-* Additional packages may be required
+- Native dependency compatibility issues
+- musl-related problems
+- Additional packages may be required
 
 Debian slim:
 
@@ -3365,13 +3365,13 @@ FROM node:22.23-slim
 
 Advantages:
 
-* Often better compatibility
-* Easier support for many native libraries
-* More familiar Linux environment
+- Often better compatibility
+- Easier support for many native libraries
+- More familiar Linux environment
 
 Disadvantages:
 
-* Larger image size
+- Larger image size
 
 For beginners, `node:slim` can sometimes be easier when dealing with Prisma or native dependencies.
 
@@ -3484,21 +3484,21 @@ Use `npm install` during ordinary development if necessary, but prefer `npm ci` 
 
 A development container may:
 
-* Install development dependencies
-* Mount source code as a volume
-* Use nodemon
-* Expose debugging ports
-* Reload automatically
+- Install development dependencies
+- Mount source code as a volume
+- Use nodemon
+- Expose debugging ports
+- Reload automatically
 
 A production container should generally:
 
-* Contain only required files
-* Use predictable dependency versions
-* Avoid unnecessary development tools
-* Run with a non-root user
-* Use health checks
-* Use proper logging
-* Avoid exposing the database publicly
+- Contain only required files
+- Use predictable dependency versions
+- Avoid unnecessary development tools
+- Run with a non-root user
+- Use health checks
+- Use proper logging
+- Avoid exposing the database publicly
 
 The Dockerfile you currently have is a simple and useful learning or small deployment Dockerfile.
 
@@ -3567,13 +3567,13 @@ Database Container
 
 Reasons include:
 
-* Each container has one main responsibility
-* Easier maintenance
-* Independent restarts
-* Easier scaling
-* Easier backups
-* Better separation of concerns
-* Easier upgrades
+- Each container has one main responsibility
+- Easier maintenance
+- Independent restarts
+- Easier scaling
+- Easier backups
+- Better separation of concerns
+- Easier upgrades
 
 ---
 
@@ -3601,20 +3601,20 @@ The application does not need to know how PostgreSQL is installed internally. It
 
 Docker Compose is designed mainly for:
 
-* Local development
-* Small deployments
-* Single-server applications
-* Testing multi-container applications
-* Simple environments
+- Local development
+- Small deployments
+- Single-server applications
+- Testing multi-container applications
+- Simple environments
 
 Kubernetes is designed for larger container orchestration needs such as:
 
-* Large-scale deployments
-* Automatic scheduling
-* Service discovery
-* Self-healing
-* Horizontal scaling
-* Cluster management
+- Large-scale deployments
+- Automatic scheduling
+- Service discovery
+- Self-healing
+- Horizontal scaling
+- Cluster management
 
 For your Express and PostgreSQL project, Docker Compose is a very good starting point.
 
@@ -3764,17 +3764,17 @@ Do not assume containers automatically make applications secure.
 
 Important practices include:
 
-* Do not commit `.env` files
-* Use strong database passwords
-* Avoid exposing PostgreSQL publicly
-* Do not use default passwords in production
-* Keep images updated
-* Avoid running containers as root when possible
-* Limit exposed ports
-* Use trusted base images
-* Scan images for vulnerabilities
-* Keep dependencies updated
-* Do not include unnecessary secrets in images
+- Do not commit `.env` files
+- Use strong database passwords
+- Avoid exposing PostgreSQL publicly
+- Do not use default passwords in production
+- Keep images updated
+- Avoid running containers as root when possible
+- Limit exposed ports
+- Use trusted base images
+- Scan images for vulnerabilities
+- Keep dependencies updated
+- Do not include unnecessary secrets in images
 
 ---
 
@@ -3790,10 +3790,10 @@ because the value may become part of the image history or image metadata.
 
 Instead, inject secrets at runtime through:
 
-* Environment variables
-* Docker secrets
-* Secret management systems
-* Deployment platform secret settings
+- Environment variables
+- Docker secrets
+- Secret management systems
+- Deployment platform secret settings
 
 ---
 
@@ -3921,11 +3921,11 @@ You can create another container from the same image later.
 
 Docker may accumulate:
 
-* Old containers
-* Unused images
-* Build cache
-* Unused networks
-* Unused volumes
+- Old containers
+- Unused images
+- Build cache
+- Unused networks
+- Unused volumes
 
 You can inspect disk usage:
 
@@ -3999,11 +3999,11 @@ have been resolved.
 
 This helps identify errors such as:
 
-* Missing environment variables
-* Incorrect port mappings
-* Wrong database URLs
-* Incorrect service names
-* Invalid YAML structure
+- Missing environment variables
+- Incorrect port mappings
+- Wrong database URLs
+- Incorrect service names
+- Invalid YAML structure
 
 ---
 
@@ -4080,12 +4080,12 @@ By studying this project, students should understand that Docker is not replacin
 
 Instead:
 
-* Express remains the application framework.
-* Prisma remains the database ORM.
-* PostgreSQL remains the database engine.
-* Node.js remains the runtime.
-* Docker packages and runs them consistently.
-* Docker Compose connects the services together.
+- Express remains the application framework.
+- Prisma remains the database ORM.
+- PostgreSQL remains the database engine.
+- Node.js remains the runtime.
+- Docker packages and runs them consistently.
+- Docker Compose connects the services together.
 
 Docker is the environment and orchestration layer around the application.
 
@@ -4117,13 +4117,13 @@ Students should learn Docker in this order:
 
 Understand:
 
-* What Docker is
-* Why Docker exists
-* Image
-* Container
-* Docker Engine
-* Dockerfile
-* Docker Compose
+- What Docker is
+- Why Docker exists
+- Image
+- Container
+- Docker Engine
+- Dockerfile
+- Docker Compose
 
 ## Stage 2: Basic Commands
 
@@ -4171,32 +4171,32 @@ volumes:
 
 Understand:
 
-* localhost
-* Host ports
-* Container ports
-* Service names
-* Internal Docker DNS
+- localhost
+- Host ports
+- Container ports
+- Service names
+- Internal Docker DNS
 
 ## Stage 6: Persistence
 
 Understand:
 
-* Volumes
-* Database data
-* Container deletion
-* Volume deletion
+- Volumes
+- Database data
+- Container deletion
+- Volume deletion
 
 ## Stage 7: Production Concepts
 
 Learn:
 
-* Health checks
-* Multi-stage builds
-* Secrets
-* Image optimization
-* Logging
-* Backups
-* Security
+- Health checks
+- Multi-stage builds
+- Secrets
+- Image optimization
+- Logging
+- Backups
+- Security
 
 ---
 

@@ -6,23 +6,431 @@ services:
       - 3000:3000
     environment:
       - PORT=${PORT}
-      - DATABASE_URL=${DATABASE_URL}      
+      - DATABASE_URL=${DATABASE_URL}
     depends_on:
       - database
 
   database:
-    image: postgres:16-alpine  
+    image: postgres:16-alpine
     container_name: logitech_db
     restart: always
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}  
+      - POSTGRES_DB=${POSTGRES_DB}
     ports:
       - 5433:5432
 
     volumes:
-    - postgres_volume:/var/lib/postgresql/data 
+      - postgres_volume:/var/lib/postgresql/data
 
 volumes:
-  postgres_volume:       
+  postgres_volume:
+
+# IMPORTANT NOTES
+
+# ============================================================
+# SERVICES
+# ============================================================
+
+# "services" is the main section where we define the containers
+# that make up our application.
+#
+# Each item underneath "services" represents one service.
+
+# ==========================================================
+# 1. NODE.JS / EXPRESS APPLICATION
+# ==========================================================
+
+# "logitech" is the SERVICE NAME.
+#
+# This name is very important.
+#
+# Docker Compose uses the service name as a hostname on the
+# internal Docker network.
+#
+# Therefore, other containers can reach this application
+# using:
+#
+# logitech
+#
+# In the same way, our application can reach PostgreSQL using:
+#
+# database
+#
+
+# --------------------------------------------------------
+# BUILD THE APPLICATION IMAGE
+# --------------------------------------------------------
+
+# "build: ." tells Docker Compose to BUILD an image for
+# this service using the Dockerfile in the current build
+# context.
+#
+# The "." means:
+#
+# "Use the current directory as the Docker build context."
+#
+# Docker will look in that directory for files needed by
+# the Dockerfile.
+#
+# If our project looks like:
+#
+# project/
+# ├── Dockerfile
+# ├── package.json
+# ├── package-lock.json
+# ├── index.js
+# └── prisma/
+#
+# then:
+#
+# build: .
+#
+# tells Docker to use "project/" as the build context.
+#
+# The Dockerfile then contains instructions such as:
+#
+# FROM node:22.23-alpine
+# WORKDIR /logitechapp
+# COPY package*.json ./
+# RUN npm install
+# COPY . .
+#
+
+# --------------------------------------------------------
+# CONTAINER NAME
+# --------------------------------------------------------
+
+# "container_name" gives the actual running container a
+# specific name.
+#
+# Without this, Docker Compose can generate a name based
+# on the project and service name.
+#
+# Here we are explicitly saying:
+#
+# Name this container:
+#
+# logitech_server
+#
+# Therefore commands such as:
+#
+# docker exec -it logitech_server sh
+#
+# can be used to enter the container.
+
+# --------------------------------------------------------
+# PORT MAPPING
+# --------------------------------------------------------
+
+# "ports" connects a PORT ON OUR COMPUTER to a PORT
+# INSIDE THE CONTAINER.
+
+# This is:
+#
+# HOST PORT : CONTAINER PORT
+#
+# 3000:3000 means:
+#
+# Port 3000 on our computer
+#        ↓
+# Port 3000 inside the container
+#
+# Our Express application listens on:
+#
+# process.env.PORT
+#
+# which is 3000.
+#
+# Therefore, when we visit:
+#
+# http://localhost:3000
+#
+# Docker forwards the request to:
+#
+# logitech_server:3000
+#
+
+# --------------------------------------------------------
+# ENVIRONMENT VARIABLES
+# --------------------------------------------------------
+
+# "environment" defines environment variables that will
+# exist INSIDE the logitech container.
+#
+# These values are taken from the .env file on our host.
+#
+# For example:
+#
+# .env:
+#
+# PORT=3000
+#
+# becomes inside the container:
+#
+# PORT=3000
+#
+
+# ${PORT}
+#
+# The ${...} syntax means:
+#
+# "Take the value of PORT from the environment/.env file
+# and put it here."
+#
+# So if .env contains:
+#
+# PORT=3000
+#
+# Compose effectively creates:
+#
+# PORT=3000
+#
+
+# DATABASE_URL is also taken from our .env file.
+#
+# Our .env currently contains:
+#
+# DATABASE_URL="postgresql://user:password@database:5432/postgres?schema=public"
+#
+# The important part is:
+#
+# @database:5432
+#
+# "database" is the PostgreSQL SERVICE NAME.
+#
+# "5432" is PostgreSQL's port INSIDE the Docker network.
+#
+# This is different from the host connection:
+#
+# localhost:5433
+#
+# The application is inside Docker, so it should communicate
+# with the PostgreSQL container using:
+#
+# database:5432
+#
+
+# --------------------------------------------------------
+# DEPENDENCY BETWEEN SERVICES
+# --------------------------------------------------------
+
+# "depends_on" tells Docker Compose that the "logitech"
+# service depends on the "database" service.
+#
+# Therefore Compose starts the database service before
+# starting the logitech service.
+#
+# This expresses:
+#
+# logitech
+#    ↓
+# depends on
+#    ↓
+# database
+#
+# IMPORTANT:
+#
+# depends_on controls STARTUP ORDER.
+#
+# It does NOT necessarily mean PostgreSQL is completely
+# ready to accept connections.
+#
+# PostgreSQL may still be initializing after its container
+# has started.
+#
+# For a more robust production setup, we can later add a
+# PostgreSQL healthcheck and make the application wait for
+# the database to become healthy.
+
+# ==========================================================
+# 2. POSTGRESQL DATABASE
+# ==========================================================
+
+# "database" is the service name for our PostgreSQL container.
+#
+# This name becomes important because the Node.js application
+# can use:
+#
+# database:5432
+#
+# to reach PostgreSQL.
+
+# --------------------------------------------------------
+# USE AN EXISTING POSTGRES IMAGE
+# --------------------------------------------------------
+
+# Instead of building our own PostgreSQL image, we are
+# downloading an existing PostgreSQL image from a registry.
+#
+# postgres:16-alpine means:
+#
+# postgres
+#     -> official PostgreSQL image
+#
+# 16
+#     -> PostgreSQL major version 16
+#
+# alpine
+#     -> Alpine Linux based image
+#
+# Docker will download this image if it does not already
+# exist on our computer.
+
+# --------------------------------------------------------
+# CONTAINER NAME
+# --------------------------------------------------------
+
+# Give the PostgreSQL container a predictable name.
+#
+# The running container will be called:
+#
+# logitech_db
+#
+# We could therefore inspect it using:
+#
+# docker logs logitech_db
+#
+# or enter it using:
+#
+# docker exec -it logitech_db sh
+
+# --------------------------------------------------------
+# AUTOMATICALLY RESTART THE CONTAINER
+# --------------------------------------------------------
+
+# "restart: always" tells Docker to automatically restart
+# this container if it stops.
+#
+# This is useful for a database because we generally want
+# PostgreSQL to come back automatically after a failure or
+# Docker restart.
+#
+# For example:
+#
+# Docker stops/restarts
+#        ↓
+# PostgreSQL container starts again
+#
+
+# --------------------------------------------------------
+# POSTGRESQL ENVIRONMENT VARIABLES
+# --------------------------------------------------------
+
+# PostgreSQL uses these environment variables during its
+# initialization.
+#
+# They determine the initial:
+#
+# database username
+# database password
+# database name
+#
+
+# Take POSTGRES_USER from our .env file.
+#
+# Example:
+#
+# POSTGRES_USER=user
+#
+# PostgreSQL will create/use the database user:
+#
+# user
+#
+
+# Take POSTGRES_PASSWORD from .env.
+#
+# Example:
+#
+# POSTGRES_PASSWORD=password
+#
+# PostgreSQL uses this as the password for the database
+# user.
+#
+
+# Take POSTGRES_DB from .env.
+#
+# Example:
+#
+# POSTGRES_DB=postgres
+#
+# PostgreSQL creates/uses this database.
+#
+
+# --------------------------------------------------------
+# POSTGRES PORT MAPPING
+# --------------------------------------------------------
+
+# PostgreSQL normally listens on port 5432 inside its
+# container.
+#
+# We map:
+#
+# HOST PORT 5433
+#       ↓
+# CONTAINER PORT 5432
+#
+# Therefore:
+# From our Windows/Linux/macOS computer:
+# localhost:5433
+# connects to PostgreSQL inside the container.
+# But from another Docker container, we use:
+# database:5432
+# because containers communicate through the Docker network.
+
+# --------------------------------------------------------
+# PERSIST DATABASE DATA
+# --------------------------------------------------------
+
+# "volumes" allows us to persist PostgreSQL data outside
+# the temporary writable layer of the container.
+# Without a persistent volume:
+#
+# container deleted
+#       ↓
+# database files deleted
+#       ↓
+# database data could be lost
+#
+# With a volume:
+#
+# container deleted
+#       ↓
+# volume remains
+#       ↓
+# database data remains
+#
+
+# This line maps:
+#
+# postgres_volume
+#        ↓
+# /var/lib/postgresql/data
+#
+# The left side is the Docker volume.
+#
+# The right side is the directory inside the PostgreSQL
+# container where PostgreSQL stores its database files.
+#
+# Docker therefore stores PostgreSQL's data in the named
+# volume called:
+#
+# postgres_volume
+
+# ============================================================
+# NAMED VOLUMES
+# ============================================================
+
+# Here we declare the named volume used above.
+# We referenced:
+# postgres_volume:/var/lib/postgresql/data
+# inside the database service.
+# Therefore we declare postgres_volume here.
+# Docker manages this volume for us.
+
+# Create a named Docker volume called:
+# postgres_volume
+# This volume survives container removal unless we explicitly
+# remove it.
+
